@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ExileGames | Play Together</title>
+<style>
+:root {
+  --bg: #080b13;
+  --panel: #111827;
+  --line: #253149;
+  --cyan: #00f5d4;
+  --purple: #a855f7;
+  --text: #f4f7ff;
+  --muted: #98a6c3;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+header {
+  height: 76px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  background: #0b101b;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+.logo {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+.logo span { color: var(--cyan); }
+nav { display: flex; gap: 24px; align-items: center; }
+nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+nav a:hover { color: var(--cyan); }
+.btn {
+  background: var(--cyan);
+  color: #061018;
+  border: 0;
+  padding: 12px 17px;
+  border-radius: 7px;
+  font-weight: 800;
+}
+.btn:hover { filter: brightness(1.12); }
+.secondary {
+  background: transparent;
+  border: 1px solid var(--cyan);
+  color: var(--cyan);
+}
+main { max-width: 1180px; margin: auto; padding: 35px 24px 70px; }
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 65px 45px;
+  border: 1px solid #23364b;
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 85% 30%, #53228a66, transparent 38%),
+    radial-gradient(ellipse at 15% 100%, #00f5d422, transparent 45%),
+    #101827;
+}
+.eyebrow { color: var(--cyan); font-size: 12px; letter-spacing: 3px; font-weight: 800; }
+h1 { font-size: clamp(38px, 6vw, 70px); line-height: 1.03; margin: 18px 0; }
+h1 span { color: var(--cyan); text-shadow: 0 0 25px #00f5d433; }
+.hero p { color: var(--muted); max-width: 520px; line-height: 1.8; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 25px; }
+.stats { display: flex; flex-wrap: wrap; gap: 35px; margin-top: 40px; }
+.stat strong { display: block; font-size: 22px; }
+.stat small { color: var(--muted); }
+.section-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin: 42px 0 20px;
+}
+h2 { font-size: 23px; margin: 0; }
+.section-head p { color: var(--muted); font-size: 13px; margin: 7px 0 0; }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter {
+  border: 1px solid var(--line); background: var(--panel);
+  color: var(--muted); border-radius: 7px; padding: 9px 13px;
+}
+.filter.active, .filter:hover { border-color: var(--cyan); color: var(--cyan); }
+.grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
+}
+.card {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 12px; padding: 20px; transition: .2s;
+}
+.card:hover { border-color: var(--purple); transform: translateY(-3px); }
+.card-top { display: flex; justify-content: space-between; gap: 10px; }
+.game { font-size: 18px; font-weight: 800; }
+.tag {
+  color: var(--cyan); background: #00f5d414; border-radius: 5px;
+  padding: 5px 8px; font-size: 11px; height: fit-content;
+}
+.details { color: var(--muted); font-size: 13px; line-height: 1.9; margin: 16px 0; }
+.card button { width: 100%; }
+.empty { color: var(--muted); padding: 25px 0; }
+#form-wrap {
+  display: none; margin-top: 30px; padding: 25px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+}
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+label { display: block; color: var(--muted); font-size: 12px; margin-bottom: 7px; }
+input, select {
+  width: 100%; padding: 12px; border-radius: 6px;
+  background: #0a101c; border: 1px solid var(--line); color: var(--text);
+}
+footer {
+  border-top: 1px solid var(--line); padding: 28px 20px;
+  text-align: center; color: var(--muted); font-size: 12px;
+}
+#notice { color: var(--cyan); font-size: 13px; margin-top: 12px; }
+@media (max-width: 760px) {
+  header { padding: 0 18px; }
+  nav { gap: 12px; }
+  nav a { font-size: 12px; }
+  nav .hide-mobile { display: none; }
+  main { padding: 20px 14px 45px; }
+  .hero { padding: 40px 23px; }
+  .grid { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .section-head { align-items: flex-start; flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">EXILE<span>GAMES</span></div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#squads">Squads</a>
+    <a class="hide-mobile" href="#about">About</a>
+    <button class="btn" onclick="openForm()">+ Create squad</button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div class="eyebrow">YOUR COMMUNITY. YOUR GAME.</div>
+    <h1>FIND YOUR<br><span>NEXT SQUAD.</span></h1>
+    <p>
+      Gaming is better together. Discover teammates, create your squad
+      and find players across the games and platforms you love.
+    </p>
+    <div class="hero-actions">
+      <a href="#squads"><button class="btn">Explore squads ↗</button></a>
+      <button class="btn secondary" onclick="openForm()">Create a squad +</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong id="squad-count">3</strong><small>Squads listed</small></div>
+      <div class="stat"><strong>ALL</strong><small>Gamers welcome</small></div>
+      <div class="stat"><strong>PC + CONSOLE</strong><small>Play your way</small></div>
+    </div>
+  </section>
+
+  <section id="squads">
+    <div class="section-head">
+      <div>
+        <h2>Discover squads</h2>
+        <p>Find your people. Find your game.</p>
+      </div>
+      <div class="filters" id="filters">
+        <button class="filter active" data-platform="All">All</button>
+        <button class="filter" data-platform="PC">PC</button>
+        <button class="filter" data-platform="PlayStation">PlayStation</button>
+        <button class="filter" data-platform="Xbox">Xbox</button>
+        <button class="filter" data-platform="Nintendo Switch">Switch</button>
+      </div>
+    </div>
+    <div class="grid" id="squad-grid"></div>
+  </section>
+
+  <section id="form-wrap">
+    <h2>Create your squad</h2>
+    <p style="color:var(--muted)">Tell other players what you're looking for.</p>
+    <form id="squad-form">
+      <div class="form-grid">
+        <div><label for="game">GAME NAME</label><input id="game" required maxlength="50" placeholder="e.g. Fortnite"></div>
+        <div><label for="platform">PLATFORM</label>
+          <select id="platform"><option>PC</option><option>PlayStation</option><option>Xbox</option><option>Nintendo Switch</option></select>
+        </div>
+        <div><label for="style">PLAY STYLE</label>
+          <select id="style"><option>Casual</option><option>Competitive</option><option>Chill</option><option>Co-op</option></select>
+        </div>
+        <div><label for="slots">OPEN PLAYER SLOTS</label>
+          <select id="slots"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>8</option></select>
+        </div>
+        <div><label for="host">YOUR GAMER NAME</label><input id="host" required maxlength="30" placeholder="Your username"></div>
+      </div>
+      <button class="btn" type="submit">Publish squad</button>
+      <button class="btn secondary" type="button" onclick="closeForm()">Cancel</button>
+      <div id="notice" role="status"></div>
+    </form>
+  </section>
+
+  <section id="about" style="margin-top:55px">
+    <div class="eyebrow">BUILT BY GAMERS, FOR GAMERS</div>
+    <h2 style="margin-top:12px">The future is multiplayer.</h2>
+    <p style="color:var(--muted);line-height:1.8;max-width:650px">
+      ExileGames is an early community prototype with a big ambition:
+      make it easier for gamers to find teammates. This first version
+      saves squads in your browser. Online accounts, shared live listings,
+      chat and real matchmaking still need a secure backend.
+    </p>
+  </section>
+</main>
+
+<footer>EXILEGAMES © 2026 · MADE FOR GAMERS · EARLY DEVELOPMENT BUILD</footer>
+
+<script>
+const starterSquads = [
+  {id:1, game:"Fortnite", platform:"PC", style:"Casual", slots:2, host:"ExileBot"},
+  {id:2, game:"Minecraft", platform:"PlayStation", style:"Chill", slots:3, host:"ExileBot"},
+  {id:3, game:"Rocket League", platform:"Xbox", style:"Competitive", slots:2, host:"ExileBot"}
+];
+
+let squads;
+try {
+  const saved = localStorage.getItem("exilegames-squads");
+  squads = saved ? JSON.parse(saved) : starterSquads;
+  if (!Array.isArray(squads)) squads = starterSquads;
+} catch {
+  squads = starterSquads;
+}
+let currentPlatform = "All";
+
+function save() {
+  try {
+    localStorage.setItem("exilegames-squads", JSON.stringify(squads));
+    return true;
+  } catch {
+    document.getElementById("notice").textContent =
+      "Browser storage is unavailable. Your changes may not persist.";
+    return false;
+  }
+}
+
+function render() {
+  const grid = document.getElementById("squad-grid");
+  const visible = squads.filter(s =>
+    currentPlatform === "All" || s.platform === currentPlatform
+  );
+  document.getElementById("squad-count").textContent = squads.length;
+  grid.replaceChildren();
+
+  if (!visible.length) {
+    const empty = document.createElement("p");
+    empty.className = "empty";
+    empty.textContent = "No squads on this platform yet. Create the first one!";
+    grid.append(empty);
+    return;
+  }
+
+  visible.forEach(s => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const game = document.createElement("div");
+    game.className = "game";
+    game.textContent = s.game;
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = s.platform;
+    top.append(game, tag);
+
+    const details = document.createElement("div");
+    details.className = "details";
+    details.textContent =
+      `${s.style} · ${s.slots} open slot(s) · Host: ${s.host}`;
+
+    const join = document.createElement("button");
+    join.className = "btn secondary";
+    join.textContent = "View squad";
+    join.addEventListener("click", () => {
+      alert(`${s.game}\nPlatform: ${s.platform}\nStyle: ${s.style}\nHost: ${s.host}\n\nThis prototype does not yet support real online joining.`);
+    });
+
+    card.append(top, details, join);
+    grid.append(card);
+  });
+}
+
+document.getElementById("filters").addEventListener("click", event => {
+  const button = event.target.closest("button[data-platform]");
+  if (!button) return;
+  currentPlatform = button.dataset.platform;
+  document.querySelectorAll(".filter").forEach(b =>
+    b.classList.toggle("active", b === button)
+  );
+  render();
+});
+
+function openForm() {
+  const form = document.getElementById("form-wrap");
+  form.style.display = "block";
+  form.scrollIntoView({behavior:"smooth", block:"start"});
+}
+function closeForm() {
+  document.getElementById("form-wrap").style.display = "none";
+}
+
+document.getElementById("squad-form").addEventListener("submit", event => {
+  event.preventDefault();
+  const game = document.getElementById("game").value.trim();
+  const host = document.getElementById("host").value.trim();
+  if (!game || !host) return;
+
+  squads.unshift({
+    id: Date.now(),
+    game,
+    platform: document.getElementById("platform").value,
+    style: document.getElementById("style").value,
+    slots: Number(document.getElementById("slots").value),
+    host
+  });
+
+  save();
+  currentPlatform = "All";
+  document.querySelectorAll(".filter").forEach(b =>
+    b.classList.toggle("active", b.dataset.platform === "All")
+  );
+  render();
+  event.target.reset();
+  document.getElementById("notice").textContent = "Squad added to this browser!";
+  document.getElementById("squads").scrollIntoView({behavior:"smooth"});
+});
+
+render();
+</script>
+</body>
+</html>
